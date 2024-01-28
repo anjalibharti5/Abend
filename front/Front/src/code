@@ -1,0 +1,672 @@
+// Frontend :-
+// src/App.js:-
+import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import Select from 'react-select';
+import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
+import './App.css';
+import data from './data.json';
+
+const productFamilyOptions = [{ value: 'Supply Chain', label: 'Supply Chain' }];
+
+function App() {
+  const [data, setData] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [productFamily, setProductFamily] = useState('');
+  const [ipcActvProgram, setIpcActvProgram] = useState('');
+  const [transaction, setTransaction] = useState('');
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/abendData', {
+        'START DATE': startDate,
+        'END DATE': endDate,
+        'PRODUCT FAMILY': productFamily,
+        'IPC ACTV PROGRAM': ipcActvProgram,
+        'TRANSACTION': transaction,
+      });
+
+      setData(response.data.data.fetchedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [startDate, endDate, productFamily, ipcActvProgram, transaction]);
+
+  return (
+    <div className="App">
+      <div className="header">
+        <h1>prod-abend</h1>
+      </div>
+
+      <div className="data-header-container">
+        <div className="search-container">
+          <DatePicker
+            className="search-box"
+            placeholderText="Search 1 - Select Date"
+            dateFormat="yyyy-MM-dd"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+          />
+          <DatePicker
+            className="search-box"
+            placeholderText="Search 2 - Select Date"
+            dateFormat="yyyy-MM-dd"
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+          />
+          <Select
+            className="search-box"
+            options={productFamilyOptions}
+            placeholder="Product Family"
+            onChange={(selectedOption) => setProductFamily(selectedOption.label)}
+          />
+
+          <button className="button" onClick={fetchData}>
+            Search
+          </button>
+          <button className="button">Reset</button>
+        </div>
+
+        <div className="data-content-container">
+          <div className="data-header">
+            <h2>Abend Data</h2>
+          </div>
+
+          <table className="table-container">
+            <thead>
+              <tr>
+                <th>Entry</th>
+                <th>Job Name</th>
+                <th>Abend Code</th>
+                <th>Abended Program</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>IPC ACTV PROGRAM</th>
+                <th>IPC RTC</th>
+                <th>All Programs Listed</th>
+                <th>Product Family</th>
+                <th>Transaction</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item._id.$oid}>
+                  <td>{item.ENTRY}</td>
+                  <td>{item['JOB NAME']}</td>
+                  <td>{item['ABEND CODE']}</td>
+                  <td>{item['ABENDED PROGRAM']}</td>
+                  <td>{new Date(item.DATE.$date).toDateString()}</td>
+                  <td>{item.TIME}</td>
+                  <td>{item['IPC ACTV PROGRAM']}</td>
+                  <td>{item['IPC RTC']}</td>
+                  <td>{item['ALL PGMS LISTED']}</td>
+                  <td>{item['PRODUCT FAMILY']}</td>
+                  <td>{item.TRANSACTION}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
+
+// backend :-
+// controllers/abendDataController.js
+const AbendData = require("./../models/abendDataModel");
+ 
+exports.filterData = async (req, res) => {
+  try {
+    const queryparams = { ...req.body };
+    let query = {};
+ 
+    if (queryparams.hasOwnProperty("PRODUCT FAMILY")) {
+      query["PRODUCT FAMILY"] = {
+        $regex: queryparams["PRODUCT FAMILY"],
+        $options: "i",
+      };
+    }
+    if (queryparams.hasOwnProperty("IPC ACTV PROGRAM")) {
+      query["IPC ACTV PROGRAM"] = queryparams["IPC ACTV PROGRAM"];
+    }
+    if (queryparams.hasOwnProperty("TRANSACTION")) {
+      query["TRANSACTION"] = {
+        $regex: queryparams["TRANSACTION"],
+        $options: "i",
+      };
+    }
+ 
+    //date query
+    let startDate = new Date("2023-06-08"); //default start date as no records before this
+    let endDate = new Date(); //default end date is current date
+ 
+    if (queryparams.hasOwnProperty("START DATE")) {
+      startDate = new Date(queryparams["START DATE"]);
+    }
+    if (queryparams.hasOwnProperty("END DATE")) {
+      endDate = new Date(queryparams["END DATE"]);
+    }
+ 
+    endDate.setDate(endDate.getDate() + 1);
+    query["DATE"] = {
+      $gte: startDate,
+      $lt: endDate,
+    };
+ 
+    // console.log(query);
+ 
+    const fetchedData = await AbendData.find(query);
+ 
+    res.status(200).json({
+      status: "success",
+      results: fetchedData.length,
+      data: {
+        fetchedData,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+ 
+exports.getAllData = async (req, res) => {
+  try {
+    const fetchedData = await AbendData.find();
+    res.status(200).json({
+      status: "success",
+      result: fetchedData.length,
+      data: {
+        fetchedData,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+ 
+exports.addNewData = async (req, res) => {
+  try {
+    const inserted = await AbendData.create(req.body);
+ 
+    res.status(200).json({
+      status: "success",
+      data: {
+        inserted,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+ 
+exports.getByEntry = async (req, res) => {
+  try {
+    const entry = req.params.entry * 1;
+    const fetchedData = await AbendData.find({ ENTRY: entry });
+ 
+    res.status(200).json({
+      status: "success",
+      result: fetchedData.length,
+      data: {
+        fetchedData,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+ 
+exports.updateEntry = async (req, res) => {
+  try {
+    const entry = req.params.entry * 1;
+    const fetchedData = await AbendData.find({ ENTRY: entry });
+    const updatedData = await AbendData.findByIdAndUpdate(
+      fetchedData[0]["_id"],
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+ 
+    res.status(200).json({
+      status: "success",
+      data: {
+        updatedData,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+ 
+exports.deleteEntry = async (req, res) => {
+  try {
+    const entry = req.params.entry * 1;
+    const fetchedData = await AbendData.find({ ENTRY: entry });
+    await AbendData.findByIdAndDelete(fetchedData[0]["_id"]);
+ 
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error,
+    });
+  }
+};
+
+// App.js
+const express = require("express");
+const app = express();
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+const abendDataRoutes = require("./routes/abendDataRoutes");
+
+ 
+app.use(express.json());
+ 
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
+ 
+let DBHosted = process.env.MONGOURI.replace("<PASSWORD>", process.env.PASSWORD);
+let DBLocal = process.env.MONGOLOCAL;
+let DB = DBHosted;
+ 
+//for logging in dev env
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+  // DB = DBLocal;
+}
+ 
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    // useCreateIndex: true,
+    // useFindAndModify: false,
+  })
+  .then((con) => {
+    console.log("Conection successful");
+    console.log(con.connections);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+ 
+app.use("/", abendDataRoutes);
+ 
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}...`);
+});
+
+
+
+
+
+
+
+
+
+
+body {
+  background-color: #D4D8E3;
+}
+ 
+.header {
+  background-color: #113edf;
+  text-align: center;
+  color: pink;
+  padding: 10px;
+}
+ 
+.data-header-container {
+  padding: 20px;
+  margin: 20px;
+}
+ 
+.search-container {
+  background-color: #FFFFFF;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  border-radius: 10px;
+}
+ 
+.search-box {
+  padding: 10px;
+  width: 250px;
+  height: 30px;
+  margin-right: 10px;
+  background-color: #F4F4F4;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+ 
+.button {
+  padding: 10px;
+  width: 120px;
+  height: 30px;
+  margin-right: 10px;
+  background-color: #355BE5;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+ 
+.data-content-container {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+}
+ 
+.data-header {
+  text-align: left;
+}
+ 
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+}
+ 
+.table-container th {
+  background-color: #355BE5;
+  color: white;
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+ 
+.table-container td {
+  background-color: #F4F4F4;
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+ 
+ 
+// src/App.js
+import React from 'react';
+import DatePicker from 'react-datepicker';
+import Select from 'react-select';
+import 'react-datepicker/dist/react-datepicker.css';
+import './App.css';
+import data from './data.json';
+ 
+const productFamilyOptions = [
+  { value: 'Supply Chain', label: 'Supply Chain' },
+];
+ 
+function App() {
+  return (
+    <div className="App">
+      {/* Header Section */}
+      <div className="header">
+        <h1>prod-abend</h1>
+      </div>
+ 
+      {/* Container Section */}
+      <div className="data-header-container">
+        {/* Search Boxes with Calendar and Dropdown */}
+        <div className="search-container">
+          <DatePicker
+            className="search-box"
+            placeholderText="Search 1 - Select Date"
+            dateFormat="yyyy-MM-dd"
+          />
+          <DatePicker
+            className="search-box"
+            placeholderText="Search 2 - Select Date"
+            dateFormat="yyyy-MM-dd"
+          />
+          <Select
+            className="search-box"
+            options={productFamilyOptions}
+            placeholder="Product Family"
+          />
+ 
+          <button className="button">Search</button>
+          <button className="button">Reset</button>
+        </div>
+ 
+        {/* Data Content Container */}
+        <div className="data-content-container">
+          <div className="data-header">
+            <h2>Abend Data</h2>
+          </div>
+ 
+          <table className="table-container">
+            <thead>
+              <tr>
+                <th>Entry</th>
+                <th>Job Name</th>
+                <th>Abend Code</th>
+                <th>Abended Program</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>IPC ACTV PROGRAM</th>
+                <th>IPC RTC</th>
+                <th>All Programs Listed</th>
+                <th>Product Family</th>
+                <th>Transaction</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item._id.$oid}>
+                  <td>{item.ENTRY}</td>
+                  <td>{item['JOB NAME']}</td>
+                  <td>{item['ABEND CODE']}</td>
+                  <td>{item['ABENDED PROGRAM']}</td>
+                  <td>{new Date(item.DATE.$date).toDateString()}</td>
+                  <td>{item.TIME}</td>
+                  <td>{item['IPC ACTV PROGRAM']}</td>
+                  <td>{item['IPC RTC']}</td>
+                  <td>{item['ALL PGMS LISTED']}</td>
+                  <td>{item['PRODUCT FAMILY']}</td>
+                  <td>{item.TRANSACTION}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+export default App;
+ 
+ 
+//src/data.json
+ 
+[{
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60a"
+    },
+    "ENTRY": 26410,
+    "JOB NAME": "IMSPM101",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "10:17:42",
+    "IPC ACTV PROGRAM": "SC1IISFC",
+    "IPC RTC": "AM ",
+    "ALL PGMS LISTED": "DBAS05C |SC1IISFC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCIKZC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60b"
+    },
+    "ENTRY": 26409,
+    "JOB NAME": "IMSPM109",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "9:47:05",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60c"
+    },
+    "ENTRY": 26408,
+    "JOB NAME": "IMSPM101",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "9:47:03",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60d"
+    },
+    "ENTRY": 26407,
+    "JOB NAME": "IMSPM105",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "9:46:59",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60e"
+    },
+    "ENTRY": 26406,
+    "JOB NAME": "IMSPM108",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "9:46:56",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60f"
+    },
+    "ENTRY": 26405,
+    "JOB NAME": "IMSPM104",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "9:46:54",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac610"
+    },
+    "ENTRY": 26404,
+    "JOB NAME": "IMSPM108",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T18:30:00.000Z"
+    },
+    "TIME": "9:46:51",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "659e8702c59c95619fd295fc"
+    },
+    "ENTRY": 26411,
+    "JOB NAME": "IMSPM160",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": {
+      "$date": "2023-06-08T00:00:00.000Z"
+    },
+    "TIME": "11:21:03",
+    "IPC ACTV PROGRAM": "SC1IIELC",
+    "IPC RTC": "DA ",
+    "ALL PGMS LISTED": "DBAS05C |SC1IIELC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " Multiple Tran"
+  }]
+ 
+ 
+  // src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+ 
+ReactDOM.render (
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+ 
+ 
+reportWebVitals();
+
