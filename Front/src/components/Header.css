@@ -1,0 +1,129 @@
+body {
+  background-color: #D4D8E3;
+}
+
+.header {
+  background-color: #032dc5;
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.search-container {
+  background-color: #FFFFFF;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  border-radius: 10px;
+  margin: 20px;
+  overflow-x: auto;
+}
+
+.search-box {
+  flex: 1 1 200px;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 10px;
+  margin: 5px;
+  margin-right: 10px;
+  background-color: #F4F4F4;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.button {
+  flex: 1 1 40px;
+  min-width: 100px;
+  max-width: 200px;
+  height:39px;
+  padding: 10px;
+  margin: 5px;
+  background-color: #355BE5;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.button:hover {
+  background-color: #7F9AFA;
+  color: white;
+}
+
+.data-content-container {
+  padding: 20px;
+  margin: 20px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+}
+
+.data-header {
+  text-align: left;
+}
+
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+ 
+.table-container th {
+  background-color: #355BE5;
+  color: white;
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-container td {
+  background-color: #F4F4F4;
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+  
+.table-container td:hover {
+  background-color: #959595;
+}
+
+.table-container table {
+  width: 100%; 
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  padding: 8px; 
+  border: 1px solid #ddd;
+}
+
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px; /* Adjust as necessary */
+}
+
+
+.select-container {
+  position: relative;
+}
+
+.select-container .react-select__menu {
+  position: absolute;
+  z-index: 9999;
+  top: calc(100% + 5px); /* Adjust this value as needed to position the menu below the select */
+  left: 0;
+  width: 100%;
+}
+
+@media screen and (max-width:768px) {
+  .search-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button {
+    flex-direction: column;
+    align-items: center;
+  }
+}

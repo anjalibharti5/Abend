@@ -1,0 +1,128 @@
+[{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad474"
+  },
+  "ENTRY": 27152,
+  "JOB-NAME": "IMSPM160",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "20-01-2024",
+  "TIME": "19:52:14",
+  "IPC ACTIVE PGM": "SC1WWGOC",
+  "IPC RTC": "A1",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WWGOC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Line & Base Maintenance",
+  "TRANSACTION": "SCIPWC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad475"
+  },
+  "ENTRY": 27151,
+  "JOB-NAME": "IMSPM161",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "20-01-2024",
+  "TIME": "19:52:11",
+  "IPC ACTIVE PGM": "SC1WWGOC",
+  "IPC RTC": "A1",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WWGOC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Line & Base Maintenance",
+  "TRANSACTION": "SCIPWC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad476"
+  },
+  "ENTRY": 27150,
+  "JOB-NAME": "IMSPM160",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "20-01-2024",
+  "TIME": "19:52:08",
+  "IPC ACTIVE PGM": "SC1WWGOC",
+  "IPC RTC": "A1",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WWGOC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Line & Base Maintenance",
+  "TRANSACTION": "SCIPWC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad477"
+  },
+  "ENTRY": 27149,
+  "JOB-NAME": "IMSPM161",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "20-01-2024",
+  "TIME": "19:52:05",
+  "IPC ACTIVE PGM": "SC1WWGOC",
+  "IPC RTC": "A1",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WWGOC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Line & Base Maintenance",
+  "TRANSACTION": "SCIPWC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad478"
+  },
+  "ENTRY": 27148,
+  "JOB-NAME": "IMSPM160",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "20-01-2024",
+  "TIME": "19:52:02",
+  "IPC ACTIVE PGM": "SC1WWGOC",
+  "IPC RTC": "A1",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WWGOC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Line & Base Maintenance",
+  "TRANSACTION": "SCIPWC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad479"
+  },
+  "ENTRY": 27147,
+  "JOB-NAME": "IMSPM161",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "20-01-2024",
+  "TIME": "19:51:59",
+  "IPC ACTIVE PGM": "SC1WWGOC",
+  "IPC RTC": "A1",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WWGOC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Line & Base Maintenance",
+  "TRANSACTION": "SCIPWC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad47a"
+  },
+  "ENTRY": 27145,
+  "JOB-NAME": "IMSPM106",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "19-01-2024",
+  "TIME": "7:24:10",
+  "IPC ACTIVE PGM": "SC1WHPTC",
+  "IPC RTC": "GP",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WHPTC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Supply Chain",
+  "TRANSACTION": "SCHPTC"
+},
+{
+  "_id": {
+    "$oid": "65c11ecad9468771121ad47b"
+  },
+  "ENTRY": 27144,
+  "JOB-NAME": "IMSPM100",
+  "ABEND-COE": "U4001",
+  "ABEND-PROGRAM": "DBAS05C",
+  "DATE": "19-01-2024",
+  "TIME": "7:24:01",
+  "IPC ACTIVE PGM": "SC1WHPTC",
+  "IPC RTC": "GP",
+  "ALL-PGM-LISTED": "DBAS05C |SC1WHPTC|DBAS01P5|        |        |",
+  "PRODUCT FAMILY": "Supply Chain",
+  "TRANSACTION": "SCHPTC"
+}]
