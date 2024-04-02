@@ -1,0 +1,146 @@
+[
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60a"
+    },
+    "ENTRY": 26410,
+    "JOB NAME": "IMSPM101",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "10:17:42",
+    "IPC ACTV PROGRAM": "SC1IISFC",
+    "IPC RTC": "AM ",
+    "ALL PGMS LISTED": "DBAS05C |SC1IISFC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCIKZC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60b"
+    },
+    "ENTRY": 26409,
+    "JOB NAME": "IMSPM109",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:47:05",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60c"
+    },
+    "ENTRY": 26408,
+    "JOB NAME": "IMSPM101",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:47:03",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60d"
+    },
+    "ENTRY": 26407,
+    "JOB NAME": "IMSPM105",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:46:59",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60e"
+    },
+    "ENTRY": 26406,
+    "JOB NAME": "IMSPM108",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:46:56",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac60f"
+    },
+    "ENTRY": 26405,
+    "JOB NAME": "IMSPM104",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:46:54",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac610"
+    },
+    "ENTRY": 26404,
+    "JOB NAME": "IMSPM108",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:46:51",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " SCAAQC       "
+  },
+  {
+    "_id": {
+      "$oid": "659e8702c59c95619fd295fc"
+    },
+    "ENTRY": 26411,
+    "JOB NAME": "IMSPM160",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "11:21:03",
+    "IPC ACTV PROGRAM": "SC1IIELC",
+    "IPC RTC": "DA ",
+    "ALL PGMS LISTED": "DBAS05C |SC1IIELC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": " Supply Chain                 ",
+    "TRANSACTION": " Multiple Tran"
+  },
+  {
+    "_id": {
+      "$oid": "6597caa3de4d2771c76ac62e"
+    },
+    "ENTRY": 26409,
+    "JOB NAME": "IMSPM109",
+    "ABEND CODE": "U4001",
+    "ABENDED PROGRAM": "DBAS05C ",
+    "DATE": "2023-06-08",
+    "TIME": "9:47:05",
+    "IPC ACTV PROGRAM": "SC1SAAQC",
+    "IPC RTC": "A3 ",
+    "ALL PGMS LISTED": "DBAS05C |SC1SAAQC|DBAS01P5|        |        |        ",
+    "PRODUCT FAMILY": "Transport",
+    "TRANSACTION": " SCAAQC       "
+  }
+]
